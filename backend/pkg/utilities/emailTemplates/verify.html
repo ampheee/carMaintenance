@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение почты</title>
+    <style>
+        /* Reset default browser styles */
+        body, h1, p, a {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Base styles for the email */
+        body {
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            background-color: #f9fafb; /* Light neutral background */
+            color: #1f2937; /* Dark text for readability */
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Email container */
+        .email-container {
+            background-color: #ffffff; /* White background for contrast */
+            max-width: 500px;
+            width: 100%;
+            margin: 20px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            text-align: center;
+        }
+
+        /* Heading styles */
+        .email-container h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e40af; /* Deep blue for branding */
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        /* Paragraph styles */
+        .email-container p {
+            font-size: 16px;
+            color: #4b5563; /* Gray text for secondary content */
+            margin-bottom: 24px;
+        }
+
+        /* Button styles */
+        .email-container a {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #1e40af; /* Brand color for buttons */
+            color: #ffffff; /* White text for contrast */
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Hover effect for the button */
+        .email-container a:hover {
+            background-color: #1e3a8a; /* Slightly darker shade on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .email-container {
+                padding: 20px;
+            }
+
+            .email-container h1 {
+                font-size: 20px;
+            }
+
+            .email-container p {
+                font-size: 14px;
+            }
+
+            .email-container a {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <h1>Подтвердите свою почту</h1>
+        <p>Нажмите на кнопку ниже для подтверждения вашей почты и завершите региcтрацию.</p>
+        <a href="{{ .VerifyURL }}"> Подтвердить почту</a>
+    </div>
+</body>
+</html>
