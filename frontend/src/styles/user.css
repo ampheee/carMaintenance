@@ -1,0 +1,132 @@
+/* General Styles */
+.App-booking {
+  padding: 2rem;
+}
+
+.App-booking h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.booking-container {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+}
+
+/* Left Section: Service Options */
+.service-options-section {
+  flex-grow: 1;
+}
+
+.service-category h4 {
+  font-size: 1.5rem;
+  color: #3498db;
+  margin-bottom: 1rem;
+}
+
+.service-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.service-name {
+  flex-grow: 1;
+  font-size: 1rem;
+  color: #333;
+}
+
+.service-price {
+  font-size: 1rem;
+  color: #555;
+  margin-left: 1rem;
+}
+
+/* Right Section: Booking Summary */
+.booking-summary-section {
+  width: 300px;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: sticky; /* Sticky positioning */
+  top: 2rem; /* Offset from the top */
+  align-self: flex-start;
+}
+
+.booking-summary-section h3 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.summary-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: #333;
+}
+
+.summary-total {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.confirm-btn {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.confirm-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .booking-container {
+    flex-direction: column;
+  }
+
+  .booking-summary-section {
+    width: 100%;
+    position: static; /* Disable sticky behavior on smaller screens */
+    margin-top: 2rem;
+  }
+}

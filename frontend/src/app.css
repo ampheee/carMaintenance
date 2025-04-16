@@ -1,0 +1,204 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+  height: 100%;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures footer stays at the bottom */
+}
+
+
+/* Header Styles */
+.App-header {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.App-header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.App-header nav a {
+  color: #ecf0f1;
+  text-decoration: none;
+  margin: 0 1rem;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.App-header nav a:hover {
+  color: #3498db;
+}
+
+/* Main Content Styles */
+.App-main {
+  flex: 1; /* Allows main content to grow and push footer down */
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.App-main h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.App-main p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+/* Responsive Grid for Pages */
+.App-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.App-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.App-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.App-card h3 {
+  font-size: 1.25rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.App-card p {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+/* Footer Styles */
+.App-footer {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  text-align: center;
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
+}
+
+.App-footer a {
+  color: #3498db;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.App-footer a:hover {
+  color: #ecf0f1;
+}
+
+/* Form Styles */
+.App-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.App-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.App-form input,
+.App-form button {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.App-form button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.App-form button:hover {
+  background-color: #2980b9;
+}
+
+/* Accessibility Focus Styles */
+.App-form input:focus,
+.App-form button:focus {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+.App-form p {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.App-form p a {
+  color: #3498db;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.App-form p a:hover {
+  color: #2980b9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .App-header nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .App-header nav a {
+    margin: 0.5rem 0;
+  }
+
+  .App-form {
+    padding: 1.5rem;
+  }
+}

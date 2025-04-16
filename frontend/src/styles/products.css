@@ -1,0 +1,134 @@
+/* Product Page Styles */
+.App-products {
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.App-products h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+.horizontal-carousel {
+  margin-bottom: 4rem;
+}
+
+.horizontal-carousel h3 {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  color: #3498db;
+}
+
+.carousel-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-items {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(calc(-25% * var(--active-index)));
+}
+
+.carousel-item {
+  min-width: 25%; /* Show 4 items per carousel */
+  padding: 1rem;
+  text-align: center;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.carousel-item.active {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2; /* Maintain consistent aspect ratio */
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.carousel-item h4 {
+  font-size: 1.25rem;
+  margin: 0.75rem 0;
+}
+
+.carousel-item p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.carousel-item .price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+.carousel-btn {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  position: absolute;
+  z-index: 10;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .carousel-item {
+    min-width: 33.33%; /* Show 3 items on medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-item {
+    min-width: 50%; /* Show 2 items on small screens */
+  }
+
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-item {
+    min-width: 100%; /* Show 1 item on very small screens */
+  }
+
+  .carousel-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+  }
+}

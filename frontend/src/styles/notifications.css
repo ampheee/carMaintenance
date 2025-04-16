@@ -1,0 +1,76 @@
+/* Notification Icon Styles */
+.notification-icon {
+  position: relative;
+  font-size: 1.5rem;
+  color: #ecf0f1;
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: color 0.3s ease;
+}
+
+.notification-icon:hover {
+  color: #3498db;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #dd6456;
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  size: 0.5rem;
+  font-weight: bold;
+}
+
+/* Notifications Page Styles */
+.notifications-page {
+  padding: 2rem;
+  text-align: center;
+}
+
+.notifications-page h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+.notifications-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.notifications-list li {
+  background-color: #ecf0f1;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.notifications-list li:hover {
+  transform: scale(1.02);
+}
+
+.notifications-list li.unread {
+  background-color: #d6eaf8;
+  font-weight: bold;
+}
+
+.notifications-list h4 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.notifications-list p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.notifications-list small {
+  font-size: 0.8rem;
+  color: #777;
+}
