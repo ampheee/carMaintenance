@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+// src/pages/RegisterPage.jsx
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { apiRequest } from "../utils/api";
 
 const RegisterPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    alert(`Пользователь с почтой ${email} успешно зарегистрирован!`);
-    navigate('/login');
+
+    const result = await apiRequest("POST", "/register", { email, password });
+
+    if (result.success) {
+      setMessage(`Пользователь с почтой ${email} успешно зарегистрирован!`);
+      setTimeout(() => navigate("/"), 3000);
+    } else {
+      setMessage(result.message || "Ошибка при регистрации. Попробуйте снова.");
+    }
   };
 
   return (
@@ -37,9 +47,16 @@ const RegisterPage = () => {
         <button type="submit">Зарегистрироваться</button>
       </form>
 
-      <p style={{ marginTop: '1rem', textAlign: 'center' }}>
-        Уже есть аккаунт?{' '}
-        <Link to="/login" style={{ color: '#3498db', textDecoration: 'underline' }}>
+      {/* Message Box Section */}
+      {message && (
+        <div className={`message-box ${message.includes("Ошибка") ? "error" : "success"}`}>
+          <p>{message}</p>
+        </div>
+      )}
+
+      <p style={{ marginTop: "1rem", textAlign: "center" }}>
+        Уже есть аккаунт?{" "}
+        <Link to="/login" style={{ color: "#3498db", textDecoration: "underline" }}>
           Войти
         </Link>
       </p>

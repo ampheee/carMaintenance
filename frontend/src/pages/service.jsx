@@ -138,7 +138,6 @@ const ServicePage = () => {
 
       <div className="booking-container">
         <div className="service-options-section">
-          <h3>Select Services</h3>
           {services.map((section, index) => (
             <div key={index} className="service-category">
               <h4>{section.category}</h4>

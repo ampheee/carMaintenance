@@ -2,13 +2,15 @@
 .App-products {
   padding: 2rem;
   text-align: center;
-  width: 100%;
+  max-width: 1600px; /* Wider than before */
+  margin: 0 auto; /* Center the container */
 }
 
 .App-products h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #2c3e50;
   margin-bottom: 2rem;
+  letter-spacing: 1px;
 }
 
 .horizontal-carousel {
@@ -16,9 +18,10 @@
 }
 
 .horizontal-carousel h3 {
-  font-size: 1.75rem;
+  font-size: 2rem;
   margin-bottom: 1.5rem;
   color: #3498db;
+  letter-spacing: 0.5px;
 }
 
 .carousel-container {
@@ -27,18 +30,19 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  width: 100%;
+  max-width: 1600px; /* Match the wider container */
+  margin: 0 auto; /* Center the carousel */
 }
 
 .carousel-items {
   display: flex;
   transition: transform 0.5s ease-in-out;
-  transform: translateX(calc(-25% * var(--active-index)));
+  transform: translateX(calc(-20% * var(--active-index))); /* Adjust for more items */
 }
 
 .carousel-item {
-  min-width: 25%; /* Show 4 items per carousel */
-  padding: 1rem;
+  min-width: 20%; /* Show 5 items per carousel instead of 4 */
+  padding: 1.5rem;
   text-align: center;
   opacity: 0.8;
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -46,31 +50,40 @@
 
 .carousel-item.active {
   opacity: 1;
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 .carousel-item img {
   width: 100%;
   height: auto;
-  aspect-ratio: 3 / 2; /* Maintain consistent aspect ratio */
+  aspect-ratio: 3 / 2;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.carousel-item img:hover {
+  transform: scale(1.05);
 }
 
 .carousel-item h4 {
-  font-size: 1.25rem;
-  margin: 0.75rem 0;
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  color: #333;
 }
 
 .carousel-item p {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #555;
+  margin-bottom: 0.75rem;
 }
 
 .carousel-item .price {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #e74c3c;
+  margin-top: 0.5rem;
 }
 
 .carousel-btn {
@@ -78,34 +91,53 @@
   color: #fff;
   border: none;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   cursor: pointer;
   position: absolute;
   z-index: 10;
-  font-size: 2rem;
+  font-size: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .carousel-btn:hover {
   background-color: rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
 }
 
 .carousel-btn.prev {
-  left: 10px;
+  left: 20px;
 }
 
 .carousel-btn.next {
-  right: 10px;
+  right: 20px;
 }
 
 /* Responsive Design */
+@media (max-width: 1400px) {
+  .carousel-item {
+    min-width: 25%; /* Show 4 items on slightly smaller screens */
+  }
+
+  .carousel-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
+  }
+}
+
 @media (max-width: 1200px) {
   .carousel-item {
     min-width: 33.33%; /* Show 3 items on medium screens */
+  }
+
+  .carousel-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 2rem;
   }
 }
 

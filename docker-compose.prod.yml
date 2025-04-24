@@ -31,8 +31,9 @@ services:
       DB_USER: postgres
       DB_PASSWORD: "3YmCs1MzQ"
       DB_NAME: scrum_poker
+      ENV: PRODUCTION
     ports:
-      - "8080:8080"
+      - "9000:9000"
     depends_on:
       - db
     networks:

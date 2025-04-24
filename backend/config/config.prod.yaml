@@ -11,10 +11,10 @@ server_name: "CarMaintenance"
 server_max_conns: "1000"
 server_scheme: "http://"
 server_host: "localhost"
-server_port: ":8080"
+server_port: ":9000"
 
-base_url: "http://localhost:8080"
-base_api_url: "http//localhost:8080/api/v1"
+base_url: "http://localhost:9000"
+base_api_url: "http//localhost:9000/api/v1"
 
 #
 # SECURITY SETTINGS

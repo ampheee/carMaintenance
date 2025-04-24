@@ -6,13 +6,13 @@ import "../styles/notifications.css";
 
 const Header = ({ isLoggedIn }) => {
   const notifications = [
-    { id: 1, read: false },
-    { id: 2, read: true },
-    { id: 3, read: false },
+    // { id: 1, read: false },
+    // { id: 2, read: true },
+    // { id: 3, read: false },
   ];
 
   const unreadCount = notifications.filter((n) => !n.read).length;
-  const cartItemsCount = 3;
+  const cartItemsCount = 0;
   const originalSize = 24;
   const resizedSize = Math.floor(originalSize * 0.8);
 
@@ -23,7 +23,6 @@ const Header = ({ isLoggedIn }) => {
           <Link to="/">Главная</Link>
           <Link to="/service">Сервис</Link>
           <Link to="/products">Автотовары</Link>
-          <Link to="/garage">Гараж</Link>
         </div>
         <div>
           {isLoggedIn ? (
