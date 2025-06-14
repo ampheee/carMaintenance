@@ -8,9 +8,11 @@ import ServicePage from './pages/service';
 import UserPage from './pages/user';
 import ProductsPage from './pages/products';
 import CartPage from './pages/cart';
+import BookingsPage from './pages/bookings';
+import BookingDetailPage from './pages/bookingsDetail';
 import NotificationPage from './pages/notifications';
-import LoginPage from './pages/login';
-import RegisterPage from './pages/register';
+import SingInPage from './pages/signin';
+import SignUpPage from './pages/signup';
 import ResetPage from './pages/reset';
 import NotFoundPage from './pages/notfound';
 
@@ -26,16 +28,18 @@ function App() {
       <main className='App-main'>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/services" element={<ServicePage />} />
+          <Route path="/signin" element={<SingInPage setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/signout" element={<SingInPage setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/reset" element={<ResetPage />} />
           <Route path="/user" element={<UserPage />} />
           <Route path="/products" element={<ProductsPage />} />
-          <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/logout" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/products/:id" element={<ProductsPage />} />
+          <Route path="/bookings" element={<BookingsPage />} />
+          <Route path="/bookings/:id" element={<BookingDetailPage />} />
+          <Route path="/service" element={<ServicePage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/notifications" element={<NotificationPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/reset" element={<ResetPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

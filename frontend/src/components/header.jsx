@@ -6,9 +6,9 @@ import "../styles/notifications.css";
 
 const Header = ({ isLoggedIn }) => {
   const notifications = [
-    // { id: 1, read: false },
-    // { id: 2, read: true },
-    // { id: 3, read: false },
+    { id: 1, read: false },
+    { id: 2, read: true },
+    { id: 3, read: false },
   ];
 
   const unreadCount = notifications.filter((n) => !n.read).length;
@@ -29,8 +29,8 @@ const Header = ({ isLoggedIn }) => {
             <span>Welcome, User!</span>
           ) : (
             <>
-              <Link to="/login">Войти</Link>
-              <Link to="/register">Зарегистрироваться</Link>
+              <Link to="/signin">Войти</Link>
+              <Link to="/signup">Зарегистрироваться</Link>
             </>
           )}
 

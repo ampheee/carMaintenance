@@ -64,7 +64,7 @@
 }
 
 .features-section {
-  padding: 80px 0;
+  padding: 20px 0;
   max-width: 1200px;
   margin: 0 auto;
   padding-left: 20px;
@@ -127,6 +127,7 @@
   }
   
   .features-section {
-    padding: 60px 0;
+    padding-top: 40px 0;
+    padding-bottom: 40px 0;
   }
 }

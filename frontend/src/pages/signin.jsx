@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-const LoginPage = ({ setIsLoggedIn }) => {
+const SignInPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleSignIn = (e) => {
     e.preventDefault();
     if (email === 'user@example.com' && password === 'password') {
       setIsLoggedIn(true);
@@ -19,7 +19,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
   return (
     <div className="App-form">
       <h2>Вход</h2>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleSignIn}>
         <label htmlFor="email">Почтовый адрес:</label>
         <input
           type="email"
@@ -38,12 +38,13 @@ const LoginPage = ({ setIsLoggedIn }) => {
         />
         <button type="submit">Войти</button>
       </form>
-      {/* Forgot Password Link */}
-        <p style={{ marginTop: '1rem', textAlign: 'center' }}>
-        <Link to="/reset">Забыли пароль?</Link>
-      </p>
+    
+        <p className="SignIn-link">
+          Забыли пароль?{" "}
+          <Link to="/reset">Восстановить</Link>
+        </p>
     </div>
   );
 };
 
-export default LoginPage;
+export default SignInPage;
