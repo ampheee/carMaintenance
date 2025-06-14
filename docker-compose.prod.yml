@@ -2,12 +2,13 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:15-alpine
+    image: postgres:17-alpine
     container_name: carMaintenance-db
     environment:
       POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "3YmCs1MzQ"
+      POSTGRES_PASSWORD: ""
       POSTGRES_DB: "car_maintenance_prod"
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"
     healthcheck:
@@ -16,7 +17,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - carMaintenance-network
 
@@ -29,8 +30,8 @@ services:
       DB_HOST: db
       DB_PORT: 5432
       DB_USER: postgres
-      DB_PASSWORD: "3YmCs1MzQ"
-      DB_NAME: scrum_poker
+      DB_PASSWORD: ""
+      DB_NAME: CarMaintenanceProd
       ENV: PRODUCTION
     ports:
       - "9000:9000"
@@ -44,4 +45,4 @@ networks:
     driver: bridge
 
 volumes:
-  postgres_data:
+  postgres-data:

@@ -1,35 +1,47 @@
-FROM node:alpine AS frontend_builder
+FROM node:18-alpine AS frontend_builder
 
-WORKDIR /app
+WORKDIR     /app/frontend
+COPY        frontend/package*.json ./
+RUN         npm ci --only=production
+COPY        frontend/ ./
+RUN         npm run build
 
-COPY    frontend/package*.json ./
-RUN     npm install
+FROM        golang:1.24-alpine AS backend_builder
 
-COPY    frontend/ ./
+RUN         apk add --no-cache git ca-certificates
+WORKDIR     /app/backend
+COPY        backend/go.mod backend/go.sum ./
+RUN         go mod download
+COPY        backend/ ./
+COPY        config/  /app/config
+RUN         CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o bin/CarMaintenance cmd/app/main.go
 
-RUN     npm cache clean --force
-RUN     npm run build
+FROM        alpine:latest
 
-FROM golang:alpine AS backend_builder
+RUN         apk add --no-cache \
+                ca-certificates \
+                bash \
+                netcat-openbsd \
+                curl \
+                && rm -rf /var/cache/apk/*
 
-WORKDIR /app
+RUN         addgroup -g 1001 -S appgroup && \
+                adduser -S appuser -u 1001 -G appgroup
 
-COPY    backend/ .
+WORKDIR     /app
 
-RUN     go mod download && go mod tidy
-RUN     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build  -o CarMaintenance cmd/app/main.go
+COPY        --from=backend_builder /app/config ./config
+COPY        --from=backend_builder /app/backend/bin/CarMaintenance ./backend/bin/CarMaintenance
+COPY        --from=backend_builder /app/backend/migrations ./backend/migrations
+COPY        --from=frontend_builder /app/frontend/build ./frontend/build
 
-FROM alpine:latest
+COPY        entrypoint.sh ./
+RUN         chmod +x ./entrypoint.sh
 
-WORKDIR /app
+RUN         chown -R appuser:appgroup /app
 
-COPY . .
+USER        appuser
 
-COPY --from=frontend_builder  /app/build                                ./frontend/build
-COPY --from=backend_builder   /app/CarMaintenance                       ./backend/CarMaintenance
+EXPOSE      8080
 
-EXPOSE 8080
-
-WORKDIR /app/backend
-
-ENTRYPOINT ["./CarMaintenance"]
+ENTRYPOINT ["./entrypoint.sh"]

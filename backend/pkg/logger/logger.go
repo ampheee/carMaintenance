@@ -8,7 +8,7 @@ import (
 func newSlogHandler() slog.Handler {
 	options := slog.HandlerOptions{}
 	handler := slog.NewJSONHandler(
-		os.Stdin,
+		os.Stdout,
 		&options,
 	)
 

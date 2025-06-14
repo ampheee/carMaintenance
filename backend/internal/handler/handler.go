@@ -6,10 +6,10 @@ import (
 )
 
 type Handler struct {
-	User service.User
-	// Vechile service.Vechile
-	// Booking service.Booking
-	// Payment service.Payment
+	User    service.User
+	Booking service.Booking
+	Order   service.Order
+
 	Config config.Config
 }
 

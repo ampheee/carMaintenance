@@ -9,7 +9,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Config represents the application configuration
 type Config struct {
 	AppName            string `mapstructure:"app_name"`
 	AppAPIVersion      string `mapstructure:"app_api_version"`
@@ -29,17 +28,11 @@ type Config struct {
 	PostgresDBName     string `mapstructure:"postgres_db_name"`
 	PostgresUser       string `mapstructure:"postgres_user_name"`
 	PostgresPassword   string `mapstructure:"postgres_password"`
-	MailUserName       string `mapstructure:"mail_user_name"`
-	MailPassword       string `mapstructure:"mail_password"`
-	MailServerName     string `mapstructure:"mail_server_name"`
-	MailPort           string `mapstructure:"mail_port"`
-	MailFromAddress    string `mapstructure:"mail_from_address"`
-	MailFromName       string `mapstructure:"mail_from_name"`
 }
 
 const (
-	productionConfigName = "config.prod"
-	developConfigName    = "config.dev"
+	productionConfigName = "config.prod.yaml"
+	developConfigName    = "config.dev.yaml"
 	configType           = "yaml"
 	configPath           = "config"
 )
@@ -54,7 +47,6 @@ func LoadConfig() (*viper.Viper, error) {
 
 	v.SetConfigType(configType)
 	v.AddConfigPath(configPath)
-	v.AddConfigPath(".")
 
 	err := v.ReadInConfig()
 	if err != nil {

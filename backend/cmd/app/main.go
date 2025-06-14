@@ -24,11 +24,9 @@ func main() {
 	app := app.New(conf)
 
 	userRepository := repository.NewUser(conf)
-
 	userService := service.NewUser(userRepository)
 
 	handler := handler.Init(userService, conf)
-
 	app.Handle(handler)
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)

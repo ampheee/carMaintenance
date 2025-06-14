@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Header from './components/header';
 import Footer from './components/footer';
+import HomePage from './pages/home';
 import ServicePage from './pages/service';
 import UserPage from './pages/user';
-import GaragePage from './pages/garage';
 import ProductsPage from './pages/products';
 import CartPage from './pages/cart';
 import NotificationPage from './pages/notifications';
@@ -25,10 +25,9 @@ function App() {
       <Header isLoggedIn={isLoggedIn} />
       <main className='App-main'>
         <Routes>
-          <Route path="/" element={<h2>Welcome to the Car Maintenance Service</h2>} />
-          <Route path="/service" element={<ServicePage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/services" element={<ServicePage />} />
           <Route path="/user" element={<UserPage />} />
-          <Route path="/garage" element={<GaragePage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/logout" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />

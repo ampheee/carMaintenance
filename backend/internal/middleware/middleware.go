@@ -18,42 +18,39 @@ const (
 	claimExpiresAt = "expires_in"
 )
 
-// Custom Errors
 var (
-	ErrInvalidToken      = errors.New("invalid or expired token")
+	ErrInvalidSession    = errors.New("invalid or expired session")
 	ErrUnexpectedSigning = errors.New("unexpected signing method")
 	ErrWebSocketUpgrade  = errors.New("websocket upgrade required")
 )
 
-// Middleware Struct
 type Middleware struct {
 	Config config.Config
 }
 
-// GenerateJWT generates a signed JWT token
 func GenerateJWT(conf config.Config, userId int) (string, string, error) {
 	expiresIn := time.Now().UTC().Add(time.Duration(conf.JWTMaxAge) * time.Minute)
 	claims := jwt.MapClaims{
 		claimExpiresAt: expiresIn,
 		claimUserId:    userId,
 	}
-	authToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := authToken.SignedString([]byte(conf.JWTSecretKey))
+	authSession := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	sessionString, err := authSession.SignedString([]byte(conf.JWTSecretKey))
 	if err != nil {
 		return "", "", fmt.Errorf("failed to sign JWT: %w", err)
 	}
-	return tokenString, expiresIn.String(), nil
+	return sessionString, expiresIn.String(), nil
 }
 
-func GetUserIDFromToken(authToken *jwt.Token) (int, error) {
-	claims, ok := authToken.Claims.(jwt.MapClaims)
+func GetUserIDFromSession(authSession *jwt.Token) (int, error) {
+	claims, ok := authSession.Claims.(jwt.MapClaims)
 	if !ok {
-		return 0, fmt.Errorf("failed to parse token claims")
+		return 0, fmt.Errorf("failed to parse session claims")
 	}
 
 	userId, exists := claims[claimUserId]
 	if !exists {
-		return 0, fmt.Errorf("missing '%s' claim in token", claimUserId)
+		return 0, fmt.Errorf("missing '%s' claim in session", claimUserId)
 	}
 
 	userIdInt := int(userId.(float64))
@@ -61,40 +58,38 @@ func GetUserIDFromToken(authToken *jwt.Token) (int, error) {
 	return userIdInt, nil
 }
 
-// VerifyJWT verifies the JWT token in the request
-func VerifyJWT(secretKey, tokenStr string) (*jwt.Token, bool, error) {
-	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+func VerifyJWT(secretKey, sessionStr string) (*jwt.Token, bool, error) {
+	session, err := jwt.Parse(sessionStr, func(session *jwt.Token) (interface{}, error) {
+		if _, ok := session.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, ErrUnexpectedSigning
 		}
 		return []byte(secretKey), nil
 	})
 
-	if err != nil || !token.Valid {
-		slog.Warn("Invalid or expired JWT token", "error", err)
-		return nil, false, fmt.Errorf("invalid or expired token")
+	if err != nil || !session.Valid {
+		slog.Warn("Invalid or expired JWT session", "error", err)
+		return nil, false, fmt.Errorf("invalid or expired session")
 	}
 
-	return token, true, nil
+	return session, true, nil
 }
 
-// Authentication Middleware
 func (m *Middleware) AuthMiddleware() func(*fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
-		authToken := c.Cookies("token")
-		if authToken == "" {
+		authsession := c.Cookies("session")
+		if authsession == "" {
 			return c.Redirect("/signin", fiber.StatusTemporaryRedirect)
 		}
 
-		rawJwtToken, isValid, err := VerifyJWT(m.Config.JWTSecretKey, authToken)
+		rawJwtsession, isValid, err := VerifyJWT(m.Config.JWTSecretKey, authsession)
 		if err != nil || !isValid {
-			slog.Warn("Invalid or missing auth token")
+			slog.Warn("Invalid or missing auth session")
 			return c.Redirect("/signin", fiber.StatusTemporaryRedirect)
 		}
 
-		userID, err := GetUserIDFromToken(rawJwtToken)
+		userID, err := GetUserIDFromSession(rawJwtsession)
 		if err != nil {
-			slog.Warn("Failed to extract user ID from token")
+			slog.Warn("Failed to extract user ID from session")
 			return c.Redirect("/signin", fiber.StatusTemporaryRedirect)
 		}
 
@@ -104,11 +99,11 @@ func (m *Middleware) AuthMiddleware() func(*fiber.Ctx) error {
 	}
 }
 
-func SetAuthCookie(c *fiber.Ctx, conf config.Config, token string) error {
+func SetAuthCookie(c *fiber.Ctx, conf config.Config, session string) error {
 	cookieInspirationTime := time.Now().UTC()
-	tokenCookie := &fiber.Cookie{
-		Name:     "token",
-		Value:    token,
+	sessionCookie := &fiber.Cookie{
+		Name:     "session",
+		Value:    session,
 		Path:     "/",
 		Domain:   conf.ServerHost,
 		MaxAge:   conf.JWTMaxAge * 60,
@@ -118,7 +113,7 @@ func SetAuthCookie(c *fiber.Ctx, conf config.Config, token string) error {
 		SameSite: "Lax",
 	}
 
-	c.Cookie(tokenCookie)
+	c.Cookie(sessionCookie)
 	return nil
 }
 

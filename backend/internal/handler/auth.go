@@ -4,7 +4,6 @@ import (
 	"carMaintenance/internal/entity"
 	"carMaintenance/internal/errs"
 	"carMaintenance/internal/middleware"
-	"carMaintenance/pkg/utilities"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -12,7 +11,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// SignupHandler handles user registration.
 func (h *Handler) SignupHandler(c *fiber.Ctx) error {
 	var userDTO entity.UserDTO
 
@@ -23,7 +21,7 @@ func (h *Handler) SignupHandler(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(err)
 	}
 
-	userId, err := h.User.Create(c.UserContext(), userDTO)
+	_, err = h.User.Create(c.UserContext(), userDTO)
 	if err != nil {
 		err = fmt.Errorf("signup: %w", err)
 		slog.Error(err.Error())
@@ -40,69 +38,18 @@ func (h *Handler) SignupHandler(c *fiber.Ctx) error {
 		}
 	}
 
-	verifyHash := utilities.GenerateVerifyHash(h.Config.HashSecretKey, userDTO.Email, userId)
-	if verifyHash == "" {
-		err = fmt.Errorf("signup: %w", fmt.Errorf("failed to generate hash"))
-		slog.Error(err.Error())
-		return c.Status(fiber.StatusInternalServerError).JSON(err)
-	}
-
-	verifyLink := fmt.Sprintf(
-		"%s%s/signup/verify/%s",
-		h.Config.ServerScheme,
-		h.Config.ServerHost,
-		verifyHash,
-	)
-
-	err = utilities.SendVerificationEmail(
-		h.Config.MailFromName,
-		h.Config.MailFromAddress,
-		userDTO.Email,
-		h.Config.MailServerName,
-		h.Config.MailPort,
-		h.Config.MailPassword,
-		verifyLink,
-	)
-
-	if err != nil {
-		err = fmt.Errorf("signup: %w", err)
-		slog.Error(err.Error())
-		return c.Status(fiber.StatusInternalServerError).JSON(err)
-	}
-
-	return c.SendStatus(fiber.StatusOK)
-}
-
-func (h *Handler) VerifyHandler(c *fiber.Ctx) error {
-	receivedHash := c.Params("hash")
-	if receivedHash == "" {
-		err := fmt.Errorf("verify: %w", errs.ErrInvalidInput)
-		slog.Error(err.Error())
-		return c.Status(fiber.StatusBadRequest).JSON(err)
-	}
-
-	err := h.User.Verify(c.UserContext(), h.Config.HashSecretKey, receivedHash)
-	if err != nil {
-		err = fmt.Errorf("verify: %w", err)
-		slog.Error(err.Error())
-		if errors.Is(err, errs.ErrNotFound) {
-			return c.Status(fiber.StatusNotFound).JSON(err)
-		}
-		return c.Status(fiber.StatusInternalServerError).JSON(err)
-	}
-
 	return c.SendStatus(fiber.StatusOK)
 }
 
 func (h *Handler) UserInfoHandler(c *fiber.Ctx) error {
-	authToken := c.Cookies("token")
-	if authToken == "" {
-		err := fmt.Errorf("UserInfo: %w", fmt.Errorf("user token is not found"))
+	authSession := c.Cookies("session")
+	if authSession == "" {
+		err := fmt.Errorf("UserInfo: %w", fmt.Errorf("user session is not found"))
 		slog.Error(err.Error())
 		return c.Status(fiber.StatusForbidden).JSON(err)
 	}
 
-	rawJwtToken, isValid, err := middleware.VerifyJWT(h.Config.JWTSecretKey, authToken)
+	rawJwtSession, isValid, err := middleware.VerifyJWT(h.Config.JWTSecretKey, authSession)
 	if err != nil {
 		err = fmt.Errorf("UserInfo: %w", err)
 		slog.Error(err.Error())
@@ -110,12 +57,12 @@ func (h *Handler) UserInfoHandler(c *fiber.Ctx) error {
 	}
 
 	if !isValid {
-		err = fmt.Errorf("UserInfo: %w", fmt.Errorf("token is not valid"))
+		err = fmt.Errorf("UserInfo: %w", fmt.Errorf("session is not valid"))
 		slog.Error(err.Error())
 		return c.Status(fiber.StatusForbidden).JSON(err)
 	}
 
-	userId, err := middleware.GetUserIDFromToken(rawJwtToken)
+	userId, err := middleware.GetUserIDFromSession(rawJwtSession)
 	if err != nil {
 		err = fmt.Errorf("UserInfo: %w", err)
 		slog.Error(err.Error())
@@ -149,14 +96,14 @@ func (h *Handler) SigninHandler(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(err)
 	}
 
-	token, _, err := middleware.GenerateJWT(h.Config, userAuth.Id)
+	session, _, err := middleware.GenerateJWT(h.Config, userAuth.Id)
 	if err != nil {
 		err = fmt.Errorf("signin: %w", err)
 		slog.Error(err.Error())
 		return c.Status(fiber.StatusInternalServerError).JSON(err)
 	}
 
-	middleware.SetAuthCookie(c, h.Config, token)
+	middleware.SetAuthCookie(c, h.Config, session)
 
 	return c.SendStatus(fiber.StatusOK)
 }
