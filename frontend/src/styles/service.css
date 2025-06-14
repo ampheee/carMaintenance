@@ -1,247 +1,311 @@
-.App-services {
-  padding: 2rem;
-  background-color: #f9f9f9;
+
+.service-page {
   min-height: 100vh;
-  margin: 0;
+  background-color: #f5f7fa;
+  padding: 20px;
 }
 
-.App-services h2 {
-  font-size: 2.5rem;
-  color: #2c3e50;
-  margin-bottom: 2rem;
-  text-align: center;
-  letter-spacing: 1px;
-}
-
-.booking-container {
-  display: flex;
-  gap: 3rem;
+.service-container {
+  max-width: 1400px;
   margin: 0 auto;
-  position: relative;
 }
 
-/* Left Section: Service Options */
-.service-options-section {
-  flex-grow: 1;
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.05);
+.service-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 40px;
 }
 
-.service-category h4 {
-  font-size: 1.75rem;
-  color: #3498db;
-  margin-bottom: 1.5rem;
-  letter-spacing: 0.5px;
-}
-
-.service-grid {
+.service-content {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.service-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.service-category {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.category-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e8ecef;
+  padding-bottom: 12px;
+}
+
+.service-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
 }
 
 .service-item {
   display: flex;
   align-items: center;
-  background-color: #f9f9f9;
-  padding: 1rem;
-  border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid transparent;
 }
 
-.service-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  border: 1px solid #3498db;
-}
-
-.switchbox {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 25px;
-  margin-right: 1.5rem;
-}
-
-.slider {
-  position: absolute;
+.service-checkbox {
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.service-checkbox:hover {
+  background-color: #f8f9fa;
+}
+
+.service-checkbox input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  margin-right: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.service-checkbox input[type="checkbox"]:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.service-checkbox input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  color: white;
+  font-size: 16px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.service-name {
+  flex: 1;
+  font-size: 16px;
+  color: #495057;
+}
+
+.service-price {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 16px;
+}
+
+.service-summary {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+}
+
+.summary-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.summary-content {
+  border-bottom: 1px solid #e8ecef;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 16px;
+  color: #495057;
+}
+
+.summary-total {
+  margin-bottom: 24px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.total-amount {
+  color: #007bff;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-primary,
+.btn-secondary {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #1e7e34;
+}
+
+.modal-overlay {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 25px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-.switchbox input:checked + .slider {
-  background-color: #3498db;
-}
-
-.switchbox input:checked + .slider:before {
-  transform: translateX(25px);
-}
-
-.service-details {
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  flex-grow: 1;
+  align-items: center;
+  z-index: 1000;
 }
 
-.service-name {
-  font-size: 1.25rem;
-  color: #333;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.service-price {
-  font-size: 1.1rem;
-  color: #555;
-  font-weight: 500;
-}
-
-.booking-summary-section {
-  width: 500px;
-  background-color: #fff;
-  padding: 2rem;
+.booking-dialog {
+  max-width: 400px;
+  padding: 24px;
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.05);
-  position: sticky;
-  top: 2rem;
-  align-self: flex-start;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.booking-summary-section h3 {
-  font-size: 1.75rem;
+.booking-dialog-title {
+  font-size: 18px;
+  font-weight: 600;
   color: #2c3e50;
-  margin-bottom: 1.5rem;
   text-align: center;
-  letter-spacing: 0.5px;
+  margin-bottom: 20px;
 }
 
-.summary-details {
+.booking-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 16px;
 }
 
-.summary-item {
+.form-group {
   display: flex;
-  justify-content: space-between;
-  font-size: 1.1rem;
-  color: #333;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
   font-weight: 500;
-}
-
-.summary-total {
-  margin-top: 1.5rem;
-  font-size: 1.5rem;
-  font-weight: bold;
   color: #2c3e50;
-  border-top: 1px solid #ddd;
-  padding-top: 1rem;
 }
 
-/* Buttons Styling */
-.confirm-booking-btn,
-.exists-bookings-btn {
-  width: 100%;
-  padding: 1rem 2rem;
+.form-input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.form-input::placeholder {
+  color: #999;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.booking-submit-btn {
+  flex: 1;
+  background-color: #007bff;
+  color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  margin-top: 1.5rem;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
-.confirm-booking-btn {
-  background-color: #3498db;
-  color: #fff;
+.booking-submit-btn:hover {
+  background-color: #0056b3;
 }
 
-.confirm-booking-btn:hover {
-  background-color: #2980b9;
-  transform: scale(1.05);
+.booking-cancel-btn {
+  flex: 1;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.exists-bookings-btn {
-  background-color: #2ecc71;
-  color: #fff;
-}
-
-.exists-bookings-btn:hover {
-  background-color: #27ae60;
-  transform: scale(1.05);
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .booking-container {
-    flex-direction: column;
-    gap: 3rem;
-  }
-
-  .booking-summary-section {
-    width: 100%;
-    position: static;
-    margin-top: 2rem;
-  }
-
-  .service-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.booking-cancel-btn:hover {
+  background-color: #c82333;
 }
 
 @media (max-width: 768px) {
-  .service-grid {
+  .service-content {
     grid-template-columns: 1fr;
   }
-
-  .App-services h2 {
-    font-size: 2rem;
+  
+  .service-list {
+    grid-template-columns: 1fr;
   }
-
-  .service-category h4 {
-    font-size: 1.5rem;
-  }
-
-  .service-name {
-    font-size: 1.1rem;
-  }
-
-  .service-price {
-    font-size: 1rem;
-  }
-
-  .summary-item {
-    font-size: 1rem;
-  }
-
-  .summary-total {
-    font-size: 1.25rem;
-  }
-
-  .confirm-booking-btn,
-  .exists-bookings-btn {
-    font-size: 1rem;
+  
+  .service-summary {
+    position: static;
   }
 }

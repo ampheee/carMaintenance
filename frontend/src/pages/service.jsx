@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../styles/service.css";
@@ -94,6 +95,12 @@ const services = [
 
 const ServicePage = () => {
   const [selectedServices, setSelectedServices] = useState([]);
+  const [showBookingForm, setShowBookingForm] = useState(false);
+  const [bookingData, setBookingData] = useState({
+    carModel: '',
+    date: '',
+    time: ''
+  });
   const navigate = useNavigate();
 
   const handleServiceSelection = (serviceId) => {
@@ -113,91 +120,193 @@ const ServicePage = () => {
     }, 0);
   };
 
+  const getSelectedServiceDetails = () => {
+    return selectedServices.map((serviceId) => {
+      return services
+        .flatMap((section) => section.options)
+        .find((s) => s.id === serviceId);
+    }).filter(Boolean);
+  };
+
   const handleConfirmBooking = () => {
     if (selectedServices.length === 0) {
-      alert("Please select at least one service.");
+      alert("Пожалуйста, выберите хотя бы одну услугу.");
+      return;
+    }
+    setShowBookingForm(true);
+  };
+
+  const handleBookingSubmit = () => {
+    if (!bookingData.carModel || !bookingData.date || !bookingData.time) {
+      alert("Пожалуйста, заполните все поля.");
       return;
     }
 
-    console.log("Booking Confirmed:", {
+    console.log("Бронирование подтверждено:", {
       selectedServices,
       total: calculateSubtotal(),
+      bookingData
     });
 
-    alert("Booking confirmed successfully!");
+    alert("Бронирование успешно подтверждено!");
+    setShowBookingForm(false);
+    setSelectedServices([]);
+    setBookingData({ carModel: '', date: '', time: '' });
     navigate("/");
   };
 
-  const handleExistsBooking = () => {
+  const handleBookingCancel = () => {
+    setShowBookingForm(false);
+    setBookingData({ carModel: '', date: '', time: '' });
+  };
+
+  const handleMyBookings = () => {
     navigate("/bookings");
   };
 
+  const handleInputChange = (field, value) => {
+    setBookingData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
   return (
-    <div className="App-services">
-      <h2>Book Your Car Repair</h2>
-
-      <div className="booking-container">
-        <div className="service-options-section">
-          {services.map((section, index) => (
-            <div key={index} className="service-category">
-              <h4>{section.category}</h4>
-              <div className="service-grid">
-                {section.options.map((service) => (
-                  <div key={service.id} className="service-item">
-                    <label className="switchbox">
-                      <input
-                        type="checkbox"
-                        checked={selectedServices.includes(service.id)}
-                        onChange={() => handleServiceSelection(service.id)}
-                      />
-                      <span className="slider"></span>
-                    </label>
-                    <div className="service-details">
-                      <span className="service-name">{service.name}</span>
-                      <span className="service-price">${service.price}</span>
+    <div className="service-page">
+      <div className="service-container">
+        <h1 className="service-title">Запись на техническое обслуживание</h1>
+        
+        <div className="service-content">
+          <div className="service-categories">
+            {services.map((section, index) => (
+              <div key={index} className="service-category">
+                <h3 className="category-title">{section.category}</h3>
+                <div className="service-list">
+                  {section.options.map((service) => (
+                    <div key={service.id} className="service-item">
+                      <label className="service-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={selectedServices.includes(service.id)}
+                          onChange={() => handleServiceSelection(service.id)}
+                        />
+                        <span className="checkmark"></span>
+                        <span className="service-name">{service.name}</span>
+                        <span className="service-price">{service.price}₽</span>
+                      </label>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="booking-summary-section">
-          <h3>Booking Summary</h3>
-          <div className="summary-details">
-            {selectedServices.length > 0 ? (
-              <>
-                {selectedServices.map((serviceId) => {
-                  const service = services
-                    .flatMap((section) => section.options)
-                    .find((s) => s.id === serviceId);
-                  return (
-                    <div key={serviceId} className="summary-item">
-                      <span>{service.name}</span>
-                      <span>${service.price}</span>
-                    </div>
-                  );
-                })}
-                <div className="summary-total">
-                  <strong>Total:</strong>
-                  <strong>${calculateSubtotal()}</strong>
+                  ))}
                 </div>
-              </>
-            ) : (
-              <p>No services selected.</p>
-            )}
+              </div>
+            ))}
           </div>
 
-          <button className="confirm-booking-btn" onClick={handleConfirmBooking}>
-            Confirm Booking
-          </button>
+          <div className="service-summary">
+            <div className="summary-header">
+              <h3>Предварительные итоги записи</h3>
+            </div>
+            
+            <div className="summary-content">
+              {selectedServices.length > 0 ? (
+                getSelectedServiceDetails().map((service) => (
+                  <div key={service.id} className="summary-row">
+                    <span>{service.name}</span>
+                    <span>{service.price}₽</span>
+                  </div>
+                ))
+              ) : (
+                <div className="summary-row">
+                  <span>Услуги не выбраны</span>
+                  <span>0₽</span>
+                </div>
+              )}
+            </div>
 
-          <button className="exists-bookings-btn" onClick={handleExistsBooking}>
-            My Bookings
-          </button>
+            <div className="summary-total">
+              <div className="total-row">
+                <span>Сумма: </span>
+                <span className="total-amount">{calculateSubtotal()}₽</span>
+              </div>
+            </div>
+
+            <div className="action-buttons">
+              <button className="btn-primary" onClick={handleConfirmBooking}>
+                Отправить заявку
+              </button>
+              <button className="btn-secondary" onClick={handleMyBookings}>
+                Мои записи
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+
+      {showBookingForm && (
+        <div className="modal-overlay">
+          <div className="booking-dialog">
+            <h2 className="booking-dialog-title">
+              Заполните данные для записи
+            </h2>
+            
+            <div className="booking-form">
+              <div className="form-group">
+                <label htmlFor="carModel" className="form-label">
+                  Модель машины
+                </label>
+                <input
+                  id="carModel"
+                  type="text"
+                  placeholder="Nissan GT-R"
+                  value={bookingData.carModel}
+                  onChange={(e) => handleInputChange('carModel', e.target.value)}
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="date" className="form-label">
+                  Дата
+                </label>
+                <input
+                  id="date"
+                  type="date"
+                  value={bookingData.date}
+                  onChange={(e) => handleInputChange('date', e.target.value)}
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="time" className="form-label">
+                  Время
+                </label>
+                <input
+                  id="time"
+                  type="time"
+                  value={bookingData.time}
+                  onChange={(e) => handleInputChange('time', e.target.value)}
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-buttons">
+                <button 
+                  onClick={handleBookingSubmit}
+                  className="booking-submit-btn"
+                >
+                  Записаться
+                </button>
+                <button 
+                  onClick={handleBookingCancel}
+                  className="booking-cancel-btn"
+                >
+                  Отмена
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -4,27 +4,26 @@ import "../styles/home.css";
 const HomePage = () => {
   return (
     <div className="homepage">
-      {/* Hero Section */}
+
       <section className="hero-section">
         <div className="hero-container">
           <div className="hero-content">
             <h1>Ваш надежный автосервис</h1>
             <p>
-              Качественный ремонт и диагностика — профессионально, быстро и по
-              приемлемой цене
+              Качественный ремонт и диагностика — профессионально,<br></br>
+              быстро и по приемлемой цене
             </p>
             <button className="cta-button">Записаться на осмотр</button>
           </div>
           <div className="hero-image">
             <img 
-              src="/lovable-uploads/4da2b510-db4e-4600-bf8b-719ef1946750.png" 
+              src="https://resp-avto.ru/wp-content/uploads/2025/05/6318b1c55d84c1ffb7b7bf305b1bc837.jpg" 
               alt="Car maintenance service"
             />
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
       <section className="features-section">
         <h2>Почему выбирают наш автосервис</h2>
         <div className="features-grid">
