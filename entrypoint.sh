@@ -62,11 +62,10 @@ run_migrations() {
 start_backend() {
     log_info "Starting backend application..."
     
-    export CONFIG_FILE="/app/backend/config/config.prod.yaml"
+    export CONFIG_FILE="/app/config/config.prod.yaml"
     
     if [ ! -f "$CONFIG_FILE" ]; then
-        log_warn "Config file $CONFIG_FILE not found, falling back to default"
-        export CONFIG_FILE="/app/backend/config/config.prod.yaml"
+        log_warn "Config file $CONFIG_FILE not found"
     fi
     
     log_info "Using config file: $CONFIG_FILE"

@@ -39,6 +39,7 @@ services:
       - db
     networks:
       - carMaintenance-network
+    restart: on-failure
 
 networks:
   carMaintenance-network:
